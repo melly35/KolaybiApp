@@ -4,9 +4,12 @@ import { Text, View, TouchableOpacity, FlatList, SafeAreaView } from 'react-nati
 import { persistor } from '../redux/store';
 import { useSelector, useDispatch } from 'react-redux';
 import Actions from '../redux/actions';
+import { useIsFocused, useFocusEffect } from "@react-navigation/native";
+
 
 
 const ProfileScreen = ({navigation}) =>  {
+  const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const userData = useSelector(state => state.authReducer.user)
   const accessToken = useState(userData.accessToken)
@@ -32,13 +35,15 @@ const ProfileScreen = ({navigation}) =>  {
       //navigation.navigate('SplashScreen')
   };
 
-  useEffect(() => {
-    dispatch(Actions.generalAction.getOrders({'accessToken': accessToken})) 
-  
-    return () => {
-      
+   //Again focused refreshing
+   useEffect(() => {  
+    if (isFocused) { 
+      dispatch(Actions.generalAction.getOrders({'accessToken': accessToken})) 
     }
-  }, [])
+
+    return () => {
+    }
+  }, [isFocused])
   
 
 
