@@ -22,10 +22,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import globalStyles from '../styles/globalStyles';
 import Actions from '../redux/actions';
 import MainFilterComp from "../components/Generals/MainFilterComp";
- 
+
+import { useIsFocused, useFocusEffect } from "@react-navigation/native";
+
 
 
 const HomeScreen = ({ navigation }) => {
+  const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const userData = useSelector(state => state?.authReducer?.user)
 
@@ -42,37 +45,40 @@ const HomeScreen = ({ navigation }) => {
   const [searchStatus, setSearchStatus] = useState(false);
   const [filterSection, setFilterSection] = useState(false);
 
+  //Again focused refreshing
+  useEffect(() => {  
+    if (isFocused) { 
+      _handleRefresh()
+    }
+
+    return () => {
+    }
+  }, [isFocused])
 
   const _handleRefresh = () => {
-    console.log('Sa')
-    dispatch(Actions.productActions.getProducts({accessToken: accessToken}))
+    dispatch(Actions.productActions.getProducts({ accessToken: accessToken }))
   };
-
-  const _refreshing = () => {
-    setRefresing(false)
-  }
 
   const getProducts = (e = {}) => {
     let productQuery = {
       accessToken: accessToken,
     }
 
-    if(Object.keys(e).length === 0){ 
+    if (Object.keys(e).length === 0) {
       setPcategory('')
       setPprice('')
- 
     }
-    else{ 
+    else {
 
       e.hasOwnProperty('price') ? productQuery.price = e.price : null
-      e.hasOwnProperty('category') ? productQuery.category = e.category : null  
-    }  
+      e.hasOwnProperty('category') ? productQuery.category = e.category : null
+    }
 
     pQuery != '' ? productQuery.query = pQuery : null
-     
+
     dispatch(Actions.productActions.getProducts(productQuery))
-  } 
-  
+  }
+
 
   const searchIn = () => {
 
@@ -86,10 +92,10 @@ const HomeScreen = ({ navigation }) => {
     Keyboard.dismiss()
   };
 
-  useEffect(() => {
 
-    getProducts()
-
+  //First create
+  useEffect(() => { 
+    getProducts() 
     dispatch(Actions.productActions.getCategories({ 'accessToken': accessToken }))
     dispatch(Actions.productActions.getSubCategories({ 'accessToken': accessToken }))
 
@@ -99,17 +105,10 @@ const HomeScreen = ({ navigation }) => {
   }, [])
 
 
-  return (
-
+  return ( 
 
     <SafeAreaView style={{ flex: 1, justifyContent: "flex-start" }}>
-
-       
-
       <View style={[styles.headerAndSearch]}>
-        <View style={[styles.headerProfileMenu, {}]}> 
-          <Icon name="barcode-outline" size={34} color={globalStyles.Blue1} />
-        </View>
 
         <View style={[styles.searchBoxContainer]}>
           <Icon name="search" size={26} color={globalStyles.Black200} />
@@ -133,7 +132,7 @@ const HomeScreen = ({ navigation }) => {
             onFocus={(e) => searchIn()}
             onBlur={(e) => searchOut()}
             value={searchInput}
-            placeholder="Ara"
+            placeholder="Ara (Barcode, Ürün Adı)"
             placeholderTextColor={globalStyles.Black400}
             style={{
               ...styles.searchInput,
@@ -168,10 +167,9 @@ const HomeScreen = ({ navigation }) => {
 
       <ProductList
         productData={productList}
-        onProductPress={(e) => { console.log('seçilen ürün: ', e) }} 
+        onProductPress={(e) => { console.log('seçilen ürün: ', e) }}
       />
-
-
+ 
     </SafeAreaView>
   );
 }

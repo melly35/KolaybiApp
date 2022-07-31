@@ -12,7 +12,7 @@ import AddProductScreen from "../screens/AddProductScreen";
 import SplashScreen from "../screens/SplashScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
-import MyCartScreen from "../screens/MyCartScreen";
+import MyCartScreen from "../screens/MyCartScreen"; 
  
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'; 
 import globalStyles from '../styles/globalStyles';
