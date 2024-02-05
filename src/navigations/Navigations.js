@@ -12,7 +12,9 @@ import AddProductScreen from "../screens/AddProductScreen";
 import SplashScreen from "../screens/SplashScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
-import MyCartScreen from "../screens/MyCartScreen"; 
+import MyCartScreen from "../screens/MyCartScreen";
+import BarcodeScreen from "../screens/BarcodeScreen";
+import TestScreen from "../screens/TestScreen";
  
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'; 
 import globalStyles from '../styles/globalStyles';
@@ -42,8 +44,6 @@ const MyTheme = {
   }
 };
 
-
- 
 
 const Tab = createBottomTabNavigator();
 
@@ -101,12 +101,10 @@ function AddProductStackScreen({ navigation }) {
         ), }} /> 
     </AddProductStack.Navigator>
   )
-}
-
-  
+} 
 
 
-function RootTabs({navigation}) { 
+function RootTabs({navigation, route}) { 
     const [hideTabBar, setHideTabBar] = useState("flex");
     
     return (
@@ -127,7 +125,9 @@ function RootTabs({navigation}) {
           component={HomeStackScreen}
           options={{
             tabBarLabel: 'Anasayfa',  
-        }}/>
+          }}
+          initialParams={{ itemId: 42 }}
+        />
         
         <Tab.Screen
           name = {'AddProduct'}
@@ -172,8 +172,11 @@ function RootNavigation(){
               <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
               <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
               <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown: false }} />
-              <Stack.Screen name="HomeScreen" component={RootTabs} options={{ headerShown: false, gestureEnabled: false }}  />  
+              <Stack.Screen name="HomeScreen" component={RootTabs} options={{ headerShown: false, gestureEnabled: false }}  /> 
               <Stack.Screen name="AddProductScreen" component={AddProductScreen} options={{ headerShown: true,  ...MyTheme.headerStyles }} /> 
+              <Stack.Screen name="BarcodeScreen" component={BarcodeScreen} options={{ headerShown: true }} />
+              <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerShown: true }} />
+              
             </Stack.Navigator>
         </NavigationContainer>
     );

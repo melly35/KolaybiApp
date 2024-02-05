@@ -74,8 +74,7 @@ const LoginScreen = ({navigation}) => {
               value={_email} 
               onChangeText={(text) => { 
                 setEmail(text);
-              }}
-              keyboardType='numeric'
+              }} 
             /> 
           </View>
         </View>

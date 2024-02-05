@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 
 const API_ROOT = Platform.select({
     ios: 'http://127.0.0.1:8000/api/v1/',
-    android: 'http://192.168.1.35:8000/api/v1/'
+    android: 'http://192.168.1.38:8000/api/v1/'
 })
 
 //Test ortamında sıkıntı yaratıyor.

@@ -21,18 +21,19 @@ function* handleAuthLogin(payload) {
       Toast.show({
         type: 'cError',
         text1: 'UNAUTHORIZED',
-        text2: error.response.data.msg,
-        visibilityTime: 3000,
+        text2: errMsgList(error.response.data.msg),
+        visibilityTime: 2000,
       })
       yield put({ type: ActionTypes.auth.LOGIN_ERROR })
     }
 
   } catch (error) {
+    console.warn(error)
     Toast.show({
       type: 'cWarning',
       text1: 'UNAUTHORIZED',
-      text2: error.response.data.msg,
-      visibilityTime: 3000,
+      text2: '',
+      visibilityTime: 2000,
     })
     yield put({ type: ActionTypes.auth.LOGIN_ERROR, error })
   }

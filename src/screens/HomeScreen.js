@@ -27,10 +27,14 @@ import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 
 
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, route }) => {
+  
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const userData = useSelector(state => state?.authReducer?.user)
+
+  const params = route.params
+  console.log('Home-PARAMS', route)
 
   const [searchInput, setSearchInput] = useState(null);
   const [searchClick, setSearchClick] = useState(false);
@@ -46,7 +50,7 @@ const HomeScreen = ({ navigation }) => {
   const [filterSection, setFilterSection] = useState(false);
 
   //Again focused refreshing
-  useEffect(() => {  
+  useEffect(() => {   
     if (isFocused) { 
       _handleRefresh()
     }
@@ -110,6 +114,10 @@ const HomeScreen = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1, justifyContent: "flex-start" }}>
       <View style={[styles.headerAndSearch]}>
 
+      <TouchableOpacity style={[styles.filterBtn]} onPress={(e) => { navigation.navigate('BarcodeScreen') }} >
+          <Icon name="ios-barcode" size={26} color={globalStyles.Black600} /> 
+        </TouchableOpacity>
+
         <View style={[styles.searchBoxContainer]}>
           <Icon name="search" size={26} color={globalStyles.Black200} />
           <TextInput
@@ -159,10 +167,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <View>
-        <Text style={[styles.categoriesTitle]}>Kategoriler</Text>
-
-
-
+        <Text style={[styles.categoriesTitle]}>Kategoriler</Text> 
       </View>
 
       <ProductList
